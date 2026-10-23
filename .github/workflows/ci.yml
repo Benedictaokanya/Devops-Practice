@@ -43,7 +43,18 @@ jobs:
         with:
           context: ./phase2-task-api
           push: false
+          load: true
           tags: tasks-api:ci
+          #adding Trivy for security check
+          
+      - name: Scan Docker image with Trivy
+        uses: aquasecurity/trivy-action@v0.35.0
+        with:
+          image-ref: tasks-api:ci
+          format: table
+          vuln-type: os,library
+          severity: HIGH,CRITICAL
+          exit-code: '0'
 
 
 # name: Tasks API CI
